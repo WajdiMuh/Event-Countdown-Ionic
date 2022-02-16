@@ -1,0 +1,7 @@
+{
+  "name": "eventcountdown",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
