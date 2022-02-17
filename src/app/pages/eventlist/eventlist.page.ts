@@ -26,7 +26,7 @@ export class EventlistPage implements OnInit {
   }
 
   delete(event:Event){
-    console.log(event);
+    this.eventlist.splice(this.eventlist.indexOf(event), 1);
   }
 
   async add(){
