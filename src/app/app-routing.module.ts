@@ -4,12 +4,16 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'folder/Inbox',
+    redirectTo: 'countdown',
     pathMatch: 'full'
   },
   {
-    path: 'folder/:id',
-    loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
+    path: 'countdown',
+    loadChildren: () => import('./pages/countdown/countdown.module').then( m => m.CountdownPageModule)
+  },
+  {
+    path: 'eventlist',
+    loadChildren: () => import('./pages/eventlist/eventlist.module').then( m => m.EventlistPageModule)
   }
 ];
 

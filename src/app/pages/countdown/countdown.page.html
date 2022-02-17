@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar translucent>
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Countdown</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)" disabled="{{finishedloading == false}}">
+    <ion-refresher-content>
+    </ion-refresher-content>
+  </ion-refresher>
+  <div class="centerspinner" *ngIf="finishedloading == false">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+  <div class="content" *ngIf="finishedloading">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{latestevent.title}}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>
+          Date : 
+          <br>
+          {{latestevent.date | date :'dd/MM/yyyy, h:mm a'}}
+          <br>
+        </p>
+        <p>
+          Time Left : 
+          <br>
+          {{daysleft}}
+        </p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

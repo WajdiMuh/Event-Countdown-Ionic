@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Event List</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)" disabled="{{finishedloading == false}}">
+    <ion-refresher-content>
+    </ion-refresher-content>
+  </ion-refresher>
+  <div class="centerspinner" *ngIf="finishedloading == false">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+  <div class="content" *ngIf="finishedloading">
+    <ion-list>
+      <ion-list-header>
+        Events
+      </ion-list-header>
+      <ion-item-sliding *ngFor="let event of eventlist">
+        <ion-item>
+          <ion-label>
+            <h3>{{event.title}}</h3>
+            <p>
+              {{event.date | date :'dd/MM/yyyy, h:mm a'}}
+            </p>
+          </ion-label>
+        </ion-item>
+        <ion-item-options side="end">
+          <ion-item-option color="danger" (click)="delete(event)">Delete</ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+      <ion-item class="addbutton" (click)="add()" lines="none">
+        <ion-icon name="add-circle-outline"></ion-icon>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,22 @@
+ion-spinner{
+    width: 100px !important;
+    height: 100px !important;
+}
+.centerspinner{
+    top:50%;
+    left:50%;
+    position: fixed;
+    transform: translate(-50%, -50%);
+}
+.content{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+.ios ion-card{
+    margin-bottom: 100px;
+}
+ion-card-content p{
+    margin-top: 10px;
+}
