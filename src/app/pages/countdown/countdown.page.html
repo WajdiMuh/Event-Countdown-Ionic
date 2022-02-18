@@ -16,7 +16,7 @@
     <ion-spinner name="crescent"></ion-spinner>
   </div>
   <div class="content" *ngIf="finishedloading">
-    <ion-card>
+    <ion-card *ngIf="latestevent">
       <ion-card-header>
         <ion-card-title>{{latestevent.title}}</ion-card-title>
       </ion-card-header>
@@ -34,5 +34,8 @@
         </p>
       </ion-card-content>
     </ion-card>
+    <ion-label *ngIf="!latestevent">
+      No Event Upcoming
+    </ion-label>
   </div>
 </ion-content>

@@ -3,7 +3,7 @@ import { RefresherCustomEvent } from '@ionic/angular';
 import { Event } from '../../classes/Event';
 import { AlertController } from '@ionic/angular';
 import { ToastController } from '@ionic/angular';
-
+import { EventsService } from '../../events.service';
 import * as moment from 'moment';
 
 @Component({
@@ -12,21 +12,36 @@ import * as moment from 'moment';
   styleUrls: ['./eventlist.page.scss'],
 })
 export class EventlistPage implements OnInit {
-  finishedloading:Boolean = true;
-  eventlist:Event[] = [{title:"majd coming to germany", date: new Date("2022-03-20")},{title:"test1", date: new Date("2022-04-26")}];
-  constructor(public alertController: AlertController, public toastController: ToastController) { }
+  finishedloading:Boolean = false;
+  eventlist:Event[] = [];
+  constructor(public alertController: AlertController, public toastController: ToastController ,private eventservice:EventsService) { }
 
   ngOnInit() {
+    this.eventservice.getAllEvents().subscribe(result => {
+      this.eventlist = result;
+      this.finishedloading = true;
+    },error => {
+      this.finishedloading = true;
+    });
   }
 
   refresh(event:RefresherCustomEvent){
-    setTimeout(() => {
+    this.eventservice.getAllEvents().subscribe(result => {
+      this.eventlist = result;
       event.target.complete();
-    }, 500);
+    },error => {
+      event.target.complete();
+    });
   }
 
   delete(event:Event){
-    this.eventlist.splice(this.eventlist.indexOf(event), 1);
+    this.finishedloading = false;
+    this.eventservice.deleteEvent(event).subscribe(result => {
+      this.finishedloading = true;
+      this.eventlist = result;
+    },error => {
+      this.finishedloading = true;
+    });
   }
 
   async add(){
@@ -69,7 +84,13 @@ export class EventlistPage implements OnInit {
               });
               toast.present();
             }else{
-              this.eventlist.push({title: inputs.title, date: moment(inputs.date).toDate()});
+              this.finishedloading = false;
+              this.eventservice.addEvent(inputs.title,moment(inputs.date).format("yyyy-MM-DDTHH:mm:ss.SSS")).subscribe(result => {
+                this.finishedloading = true;
+                this.eventlist = result;
+              },error => {
+                this.finishedloading = true;
+              });
             }
           }
         }

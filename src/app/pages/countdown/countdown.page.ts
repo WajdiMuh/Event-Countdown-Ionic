@@ -2,26 +2,37 @@ import { Component, OnInit } from '@angular/core';
 import { RefresherCustomEvent } from '@ionic/angular';
 import { Event } from '../../classes/Event';
 import * as moment from 'moment';
+import { EventsService } from '../../events.service';
+
 @Component({
   selector: 'app-countdown',
   templateUrl: './countdown.page.html',
   styleUrls: ['./countdown.page.scss'],
 })
 export class CountdownPage implements OnInit {
-  finishedloading:Boolean = true;
-  latestevent:Event = {title:"majd coming to germany", date: new Date("2022-03-20T00:00:00")};
+  finishedloading:Boolean = false;
+  latestevent:Event = undefined;
   daysleft: string = "";
-  constructor() { }
+  constructor(private eventservice:EventsService ) { }
 
   ngOnInit() {
-    this.recalculate();
+    this.eventservice.getLatestEvent().subscribe(result => {
+      this.latestevent = result;
+      this.recalculate();
+      this.finishedloading = true;
+    },error => {
+      this.finishedloading = true;
+    });
   }
 
   refresh(event:RefresherCustomEvent){
-    setTimeout(() => {
+    this.eventservice.getLatestEvent().subscribe(result => {
+      this.latestevent = result;
       this.recalculate();
       event.target.complete();
-    }, 500);
+    },error => {
+      event.target.complete();
+    });
   }
 
   recalculate(){
