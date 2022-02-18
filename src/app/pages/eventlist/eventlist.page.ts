@@ -5,6 +5,7 @@ import { ToastController } from '@ionic/angular';
 import { EventsService } from '../../events.service';
 import * as moment from 'moment';
 import { Platform } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -15,7 +16,7 @@ import { Platform } from '@ionic/angular';
 export class EventlistPage implements OnInit {
   finishedloading:Boolean = false;
   eventlist:Event[] = [];
-  constructor(public alertController: AlertController, public toastController: ToastController ,private eventservice:EventsService, public platform: Platform) { }
+  constructor(public alertController: AlertController, public toastController: ToastController ,private eventservice:EventsService, public platform: Platform, private router: Router) { }
 
   ngOnInit() {
     this.eventservice.getAllEvents().subscribe(result => {
@@ -33,6 +34,10 @@ export class EventlistPage implements OnInit {
     },error => {
       event.target.complete();
     });
+  }
+
+  eventclick(event:Event){
+    this.router.navigate(['/countdown', event]);
   }
 
   delete(event:Event){

@@ -21,7 +21,7 @@
         Events
       </ion-list-header>
       <ion-item-sliding *ngFor="let event of eventlist">
-        <ion-item>
+        <ion-item (click)="eventclick(event)">
           <ion-label>
             <h3>{{event.title}}</h3>
             <p>
