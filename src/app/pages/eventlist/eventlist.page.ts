@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { RefresherCustomEvent } from '@ionic/angular';
 import { Event } from '../../classes/Event';
 import { AlertController } from '@ionic/angular';
 import { ToastController } from '@ionic/angular';
 import { EventsService } from '../../events.service';
 import * as moment from 'moment';
+import { Platform } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-eventlist',
@@ -14,7 +15,7 @@ import * as moment from 'moment';
 export class EventlistPage implements OnInit {
   finishedloading:Boolean = false;
   eventlist:Event[] = [];
-  constructor(public alertController: AlertController, public toastController: ToastController ,private eventservice:EventsService) { }
+  constructor(public alertController: AlertController, public toastController: ToastController ,private eventservice:EventsService, public platform: Platform) { }
 
   ngOnInit() {
     this.eventservice.getAllEvents().subscribe(result => {
@@ -25,7 +26,7 @@ export class EventlistPage implements OnInit {
     });
   }
 
-  refresh(event:RefresherCustomEvent){
+  refresh(event){
     this.eventservice.getAllEvents().subscribe(result => {
       this.eventlist = result;
       event.target.complete();

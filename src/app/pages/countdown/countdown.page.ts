@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { RefresherCustomEvent } from '@ionic/angular';
 import { Event } from '../../classes/Event';
 import * as moment from 'moment';
 import { EventsService } from '../../events.service';
@@ -25,7 +24,7 @@ export class CountdownPage implements OnInit {
     });
   }
 
-  refresh(event:RefresherCustomEvent){
+  refresh(event){
     this.eventservice.getLatestEvent().subscribe(result => {
       this.latestevent = result;
       this.recalculate();
