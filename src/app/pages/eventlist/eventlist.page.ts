@@ -50,6 +50,63 @@ export class EventlistPage implements OnInit {
     });
   }
 
+  async edit(event:Event){
+    const alert = await this.alertController.create({
+      cssClass: '',
+      header: 'Edit Event',
+      inputs: [
+        {
+          name: 'title',
+          type: 'text',
+          placeholder: 'Title',
+          value: event.title
+        },
+        {
+          name: 'date',
+          type: 'datetime-local',
+          min: moment().format("yyyy-MM-DD") + "T00:00:00",
+          value: moment(event.date).add(1, 'days').format("yyyy-MM-DDTHH:mm:ss.SSS")
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+          }
+        }, {
+          text: 'Edit',
+          handler: async (inputs) => {
+            if(inputs.title == "" || inputs.date == ""){
+              const toast = await this.toastController.create({
+                message: 'Either the title or date is not set',
+                duration: 2000
+              });
+              toast.present();
+            }else if(moment(inputs.date).isBefore(moment())){
+              const toast = await this.toastController.create({
+                message: 'The date is in the past',
+                duration: 2000
+              });
+              toast.present();
+            }else{
+              this.finishedloading = false;
+              this.eventservice.editEvent(event,inputs.title,moment(inputs.date).format("yyyy-MM-DDTHH:mm:ss.SSS")).subscribe(result => {
+                this.finishedloading = true;
+                this.eventlist = result;
+              },error => {
+                this.finishedloading = true;
+              });
+            }
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
   async add(){
     const alert = await this.alertController.create({
       cssClass: '',

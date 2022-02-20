@@ -64,5 +64,19 @@ export class EventsService {
       }) 
     ));
   }
+
+  editEvent(oldevent:Event,newtitle:string,newdate:string): Observable<Event[]> {
+    return this.http.put<Event[]>(this.baseurl + '/editevent/' + oldevent.id,{title:newtitle,date:newdate})
+    .pipe(map(events => {
+      return events.map(event => {
+        event.date = moment(event.date).toDate();
+        return event;
+      })
+    },
+      catchError(err => {
+        throw 'error ' + err;
+      }) 
+    ));
+  }
   
 }
