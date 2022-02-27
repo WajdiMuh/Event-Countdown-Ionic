@@ -65,7 +65,7 @@ export class EventlistPage implements OnInit {
           name: 'date',
           type: 'datetime-local',
           min: moment().format("yyyy-MM-DD") + "T00:00:00",
-          value: moment(event.date).add(1, 'days').format("yyyy-MM-DDTHH:mm:ss.SSS")
+          value: moment(event.date).format("yyyy-MM-DDTHH:mm:ss.SSS")
         }
       ],
       buttons: [
@@ -121,7 +121,7 @@ export class EventlistPage implements OnInit {
           name: 'date',
           type: 'datetime-local',
           min: moment().format("yyyy-MM-DD") + "T00:00:00",
-          value: moment().add(1, 'days').format("yyyy-MM-DDTHH:mm:ss.SSS")
+          value: moment().format("yyyy-MM-DDTHH:mm:ss.SSS")
         }
       ],
       buttons: [
