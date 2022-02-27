@@ -92,7 +92,7 @@ export class EventlistPage implements OnInit {
               toast.present();
             }else{
               this.finishedloading = false;
-              this.eventservice.editEvent(event,inputs.title,moment(inputs.date).format("yyyy-MM-DDTHH:mm:ss.SSS")).subscribe(result => {
+              this.eventservice.editEvent(event,inputs.title,moment(inputs.date).format("yyyy-MM-DDTHH:mm:ssZ")).subscribe(result => {
                 this.finishedloading = true;
                 this.eventlist = result;
               },error => {
@@ -148,7 +148,7 @@ export class EventlistPage implements OnInit {
               toast.present();
             }else{
               this.finishedloading = false;
-              this.eventservice.addEvent(inputs.title,moment(inputs.date).format("yyyy-MM-DDTHH:mm:ss.SSS")).subscribe(result => {
+              this.eventservice.addEvent(inputs.title,moment(inputs.date).format("yyyy-MM-DDTHH:mm:ssZ")).subscribe(result => {
                 this.finishedloading = true;
                 this.eventlist = result;
               },error => {
