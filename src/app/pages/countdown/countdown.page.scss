@@ -13,10 +13,15 @@ ion-spinner{
     align-items: center;
     justify-content: center;
     height: 100%;
+    user-select: none;
 }
 .ios ion-card{
     margin-bottom: 100px;
 }
 ion-card-content p{
     margin-top: 10px;
+}
+
+ion-header{
+    user-select: none;
 }

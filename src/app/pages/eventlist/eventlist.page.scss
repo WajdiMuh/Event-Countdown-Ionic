@@ -15,3 +15,11 @@ ion-spinner{
     position: fixed;
     transform: translate(-50%, -50%);
 }
+
+ion-header{
+    user-select: none;
+}
+
+ion-list-header{
+    user-select: none;
+}
