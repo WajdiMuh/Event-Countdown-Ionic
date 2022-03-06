@@ -68,6 +68,16 @@ export class CountdownPage implements OnInit,OnDestroy {
     var ms = eventdatemoment.diff(moment());
     var d = moment.duration(ms);
     this.daysleft =  `Years: ${d.years()}, Months: ${d.months()}, Days: ${d.days()}, Hours: ${d.hours()}, Minutes: ${d.minutes()}, Seconds: ${d.seconds()}`;
+    if(this.receivedevent == undefined && d.milliseconds() <= 0){
+      this.finishedloading = false;
+      this.eventservice.getLatestEvent().subscribe(result => {
+        this.latestevent = result;
+        this.recalculate();
+        this.finishedloading = true;
+      },error => {
+        this.finishedloading = true;
+      });
+    }
   }
 
 }
