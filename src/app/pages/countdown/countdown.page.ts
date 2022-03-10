@@ -44,7 +44,9 @@ export class CountdownPage implements OnInit,OnDestroy {
   }
 
   ngOnDestroy() {
+    if(this.subscription != undefined){
       this.subscription.unsubscribe();
+    }
   }
 
   refresh(event){
