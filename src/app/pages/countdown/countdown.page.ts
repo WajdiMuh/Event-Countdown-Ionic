@@ -4,6 +4,7 @@ import * as moment from 'moment';
 import { EventsService } from '../../events.service';
 import { ActivatedRoute } from '@angular/router';
 import { interval, Subscription } from 'rxjs';
+import { LocalNotifications } from '@capacitor/local-notifications';
 
 @Component({
   selector: 'app-countdown',
@@ -28,6 +29,7 @@ export class CountdownPage implements OnInit,OnDestroy {
           this.latestevent = result;
           this.recalculate();
           this.finishedloading = true;
+          this.makelocalnotification(result);
         },error => {
           this.finishedloading = true;
         });
@@ -55,6 +57,7 @@ export class CountdownPage implements OnInit,OnDestroy {
         this.latestevent = result;
         this.recalculate();
         event.target.complete();
+        this.makelocalnotification(result);
       },error => {
         event.target.complete();
       });
@@ -76,10 +79,51 @@ export class CountdownPage implements OnInit,OnDestroy {
         this.latestevent = result;
         this.recalculate();
         this.finishedloading = true;
+        this.makelocalnotification(result);
       },error => {
         this.finishedloading = true;
       });
     }
+  }
+
+  makelocalnotification(event:Event){
+    LocalNotifications.getPending().then((pendingresult) =>{
+      if(pendingresult.notifications.length == 0){
+        LocalNotifications.schedule({
+          notifications:[
+            {
+              id:event.id,
+              title:"Upcoming Event",
+              body:event.title,
+              schedule:{
+                at: event.date,
+              }
+            }
+          ]
+        });
+      }else if(pendingresult.notifications[0].id != event.id){
+        LocalNotifications.cancel({
+          notifications:[
+            {
+              id:pendingresult.notifications[0].id
+            }
+          ]
+        }).then(() => {
+          LocalNotifications.schedule({
+            notifications:[
+              {
+                id:event.id,
+                title:"Upcoming Event",
+                body:event.title,
+                schedule:{
+                  at: event.date,
+                }
+              }
+            ]
+          });
+        })
+      }
+    });
   }
 
 }

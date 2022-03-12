@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { LocalNotifications } from '@capacitor/local-notifications';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -9,5 +11,7 @@ export class AppComponent {
     { title: 'Countdown', url: '/countdown'},
     { title: 'Event List', url: '/eventlist' }
   ];
-  constructor() {}
+  constructor() {
+    LocalNotifications.requestPermissions();
+  }
 }
