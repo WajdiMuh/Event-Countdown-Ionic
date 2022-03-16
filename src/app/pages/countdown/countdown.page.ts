@@ -32,6 +32,7 @@ export class CountdownPage implements OnInit,OnDestroy {
           this.makelocalnotification(result);
         },error => {
           this.finishedloading = true;
+          this.makelocalnotification();
         });
       }else{
         this.subscription = interval(1000).subscribe(x => {
@@ -60,6 +61,7 @@ export class CountdownPage implements OnInit,OnDestroy {
         this.makelocalnotification(result);
       },error => {
         event.target.complete();
+        this.makelocalnotification();
       });
     }else{
       this.latestevent = this.receivedevent;
@@ -82,33 +84,15 @@ export class CountdownPage implements OnInit,OnDestroy {
         this.makelocalnotification(result);
       },error => {
         this.finishedloading = true;
+        this.makelocalnotification();
       });
     }
   }
 
-  makelocalnotification(event:Event){
+  makelocalnotification(event?:Event){
     LocalNotifications.getPending().then((pendingresult) =>{
       if(pendingresult.notifications.length == 0){
-        LocalNotifications.schedule({
-          notifications:[
-            {
-              id:event.id,
-              title:"Upcoming Event",
-              body:event.title,
-              schedule:{
-                at: event.date,
-              }
-            }
-          ]
-        });
-      }else if(pendingresult.notifications[0].id != event.id){
-        LocalNotifications.cancel({
-          notifications:[
-            {
-              id:pendingresult.notifications[0].id
-            }
-          ]
-        }).then(() => {
+        if(event != null){
           LocalNotifications.schedule({
             notifications:[
               {
@@ -121,6 +105,29 @@ export class CountdownPage implements OnInit,OnDestroy {
               }
             ]
           });
+        }
+      }else{
+        LocalNotifications.cancel({
+          notifications:[
+            {
+              id:pendingresult.notifications[0].id
+            }
+          ]
+        }).then(() => {
+          if(event != null){
+            LocalNotifications.schedule({
+              notifications:[
+                {
+                  id:event.id,
+                  title:"Upcoming Event",
+                  body:event.title,
+                  schedule:{
+                    at: event.date,
+                  }
+                }
+              ]
+            });
+          }
         })
       }
     });
