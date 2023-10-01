@@ -8,7 +8,7 @@ import * as moment from 'moment';
   providedIn: 'root'
 })
 export class EventsService {
-  baseurl:string = "https://eventcountdown.herokuapp.com";
+  baseurl:string = "https://event-countdown.onrender.com";
   constructor(private http: HttpClient) { }
 
   getLatestEvent(): Observable<Event> {
