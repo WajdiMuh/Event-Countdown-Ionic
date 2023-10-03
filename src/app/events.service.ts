@@ -4,11 +4,13 @@ import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators'
 import { Event } from './classes/Event';
 import * as moment from 'moment';
+import { environment } from '../environments/environment';
+
 @Injectable({
   providedIn: 'root'
 })
 export class EventsService {
-  baseurl:string = "https://event-countdown.onrender.com";
+  baseurl:string = environment.backendAPIUrl;
   constructor(private http: HttpClient) { }
 
   getLatestEvent(): Observable<Event> {
