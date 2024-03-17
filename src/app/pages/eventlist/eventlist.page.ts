@@ -84,12 +84,14 @@ export class EventlistPage implements OnInit {
                 duration: 2000
               });
               toast.present();
+              return false;
             }else if(moment(inputs.date).isBefore(moment())){
               const toast = await this.toastController.create({
                 message: 'The date is in the past',
                 duration: 2000
               });
               toast.present();
+              return false;
             }else{
               this.finishedloading = false;
               this.eventservice.editEvent(event,inputs.title,moment(inputs.date).format("yyyy-MM-DDTHH:mm:ssZ")).subscribe(result => {
@@ -140,12 +142,14 @@ export class EventlistPage implements OnInit {
                 duration: 2000
               });
               toast.present();
+              return false;
             }else if(moment(inputs.date).isBefore(moment())){
               const toast = await this.toastController.create({
                 message: 'The date is in the past',
                 duration: 2000
               });
               toast.present();
+              return false;
             }else{
               this.finishedloading = false;
               this.eventservice.addEvent(inputs.title,moment(inputs.date).format("yyyy-MM-DDTHH:mm:ssZ")).subscribe(result => {
