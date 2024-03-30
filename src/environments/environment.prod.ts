@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  backendAPIUrl: "https://eventcountdown.ddns.net"
+  backendAPIUrl: "https://eventcountdown.ddnsfree.com"
 };
